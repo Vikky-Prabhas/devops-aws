@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microservices Architecture - Modern Design</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            /* Docker Light Theme */
+            --bg-primary: #FFFFFF;
+            --bg-secondary: #F0F8FF;
+            --bg-accent: #E6F3FF;
+            --text-primary: #000000;
+            --text-secondary: #8E8E93;
+            --docker-blue: #2496ED;
+            --docker-dark-blue: #1B7CCC;
+            --border-color: #CCE7FF;
+            --card-shadow: rgba(36, 150, 237, 0.08);
+            --card-shadow-hover: rgba(36, 150, 237, 0.15);
+        }
+        
+        [data-theme="dark"] {
+            /* Docker Dark Theme */
+            --bg-primary: #0F1419;
+            --bg-secondary: #1A2332;
+            --bg-accent: #1E2B3A;
+            --text-primary: #FFFFFF;
+            --text-secondary: #B3B3B3;
+            --docker-blue: #2496ED;
+            --docker-dark-blue: #1B7CCC;
+            --border-color: #2A3441;
+            --card-shadow: rgba(36, 150, 237, 0.1);
+            --card-shadow-hover: rgba(36, 150, 237, 0.2);
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            background: var(--bg-accent);
+            color: var(--docker-blue);
+            padding: 12px 20px;
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            border: 1px solid var(--border-color);
+        }
+        
+        .back-button:hover {
+            background: var(--docker-blue);
+            color: white;
+            transform: translateX(-3px);
+        }
+        
+        .theme-toggle {
+            background: var(--bg-accent);
+            border: 1px solid var(--border-color);
+            border-radius: 25px;
+            padding: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .theme-toggle:hover {
+            transform: scale(1.05);
+            background: var(--docker-blue);
+        }
+        
+        .theme-toggle:hover .toggle-text {
+            color: white;
+        }
+        
+        .toggle-switch {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+        }
+        
+        .toggle-icon {
+            font-size: 1.2rem;
+        }
+        
+        .toggle-text {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+        
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+        
+        .title {
+            text-align: center;
+            font-size: 2.8rem;
+            margin-bottom: 3rem;
+            font-weight: 700;
+            color: var(--docker-blue);
+            text-shadow: 0 2px 4px var(--card-shadow);
+        }
+        
+        .architecture-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+        
+        .layer-section {
+            background: var(--bg-primary);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 2px solid var(--border-color);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 25px var(--card-shadow);
+        }
+        
+        .layer-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            border-radius: 20px 20px 0 0;
+        }
+        
+        .presentation::before {
+            background: linear-gradient(90deg, #10B981, #34D399);
+        }
+        
+        .application::before {
+            background: linear-gradient(90deg, var(--docker-blue), var(--docker-dark-blue));
+        }
+        
+        .data::before {
+            background: linear-gradient(90deg, #EF4444, #F87171);
+        }
+        
+        .layer-section:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px var(--card-shadow-hover);
+            border-color: var(--docker-blue);
+        }
+        
+        .layer-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+            justify-content: center;
+        }
+        
+        .layer-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-align: center;
+            color: white;
+        }
+        
+        .presentation .layer-title {
+            background: linear-gradient(135deg, #10B981, #34D399);
+        }
+        
+        .application .layer-title {
+            background: linear-gradient(135deg, var(--docker-blue), var(--docker-dark-blue));
+        }
+        
+        .data .layer-title {
+            background: linear-gradient(135deg, #EF4444, #F87171);
+        }
+        
+        .layer-icon {
+            font-size: 2rem;
+            margin-left: 1rem;
+        }
+        
+        .microservices-container {
+            background: var(--bg-accent);
+            border: 2px dashed var(--border-color);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        
+        .microservices-label {
+            position: absolute;
+            top: -12px;
+            left: 1rem;
+            background: var(--docker-blue);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .service-box {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.2rem;
+            margin: 0.8rem 0;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .service-box:hover {
+            transform: scale(1.05);
+            background: var(--docker-blue);
+            color: white;
+            box-shadow: 0 8px 25px var(--card-shadow-hover);
+        }
+        
+        .service-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        
+        .service-name {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 0.3rem;
+        }
+        
+        .service-description {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+        
+        .tech-stack {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .tech-item {
+            background: var(--bg-accent);
+            border-radius: 10px;
+            padding: 0.8rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+        
+        .tech-item:hover {
+            background: var(--docker-blue);
+            color: white;
+            transform: translateY(-3px);
+        }
+        
+        .tech-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.3rem;
+            display: block;
+        }
+        
+        .tech-name {
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+        
+        .flow-arrows {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 2rem 0;
+            padding: 2rem;
+            background: var(--bg-accent);
+            border-radius: 15px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .arrow {
+            font-size: 2rem;
+            color: var(--docker-blue);
+            margin: 0 1rem;
+            animation: pulse 2s infinite;
+        }
+        
+        .database-icons {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 1rem;
+        }
+        
+        .db-item {
+            text-align: center;
+            padding: 1rem;
+            background: var(--bg-accent);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            flex: 1;
+            margin: 0 0.5rem;
+            border: 1px solid var(--border-color);
+        }
+        
+        .db-item:hover {
+            background: var(--docker-blue);
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        .db-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        
+        .company-footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 2rem;
+            background: var(--bg-accent);
+            border-radius: 15px;
+            border: 2px solid var(--border-color);
+        }
+        
+        .company-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--docker-blue);
+            margin-bottom: 0.5rem;
+        }
+        
+        .contact-info {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.1); }
+        }
+        
+        @media (max-width: 1200px) {
+            .architecture-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .tech-stack {
+                grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2rem;
+            }
+            
+            body {
+                padding: 1rem;
+            }
+            
+            .layer-section {
+                padding: 1.5rem;
+            }
+            
+            .top-bar {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <a href="index.html" class="back-button">← Back to Day 1 Topics</a>
+        
+        <div class="theme-toggle" onclick="toggleTheme()">
+            <div class="toggle-switch">
+                <span class="toggle-icon" id="themeIcon">🌙</span>
+                <span class="toggle-text" id="themeText">Dark</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <h1 class="title">🏗️ Modern Microservices Architecture</h1>
+        
+        <div class="architecture-container">
+            <!-- Presentation Layer -->
+            <div class="layer-section presentation">
+                <div class="layer-header">
+                    <div class="layer-title">Presentation Layer</div>
+                    <span class="layer-icon">💻</span>
+                </div>
+                
+                <div class="microservices-container">
+                    <div class="microservices-label">
+                        <span>⚡</span> Microservices
+                    </div>
+                    
+                    <div class="service-box">
+                        <span class="service-icon">👤</span>
+                        <div class="service-name">Account Service</div>
+                        <div class="service-description">User authentication & profiles</div>
+                    </div>
+                    
+                    <div class="service-box">
+                        <span class="service-icon">🔍</span>
+                        <div class="service-name">Search Service</div>
+                        <div class="service-description">Content discovery & filtering</div>
+                    </div>
+                </div>
+                
+                <div class="tech-stack">
+                    <div class="tech-item">
+                        <span class="tech-icon">🅰️</span>
+                        <div class="tech-name">Angular</div>
+                    </div>
+                    <div class="tech-item">
+                        <span class="tech-icon">⚛️</span>
+                        <div class="tech-name">React</div>
+                    </div>
+                    <div class="tech-item">
+                        <span class="tech-icon">🐘</span>
+                        <div class="tech-name">PHP</div>
+                    </div>
+                    <div class="tech-item">
+                        <span class="tech-icon">📜</span>
+                        <div class="tech-name">jQuery</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Application Layer -->
+            <div class="layer-section application">
+                <div class="layer-header">
+                    <div class="layer-title">Application Layer</div>
+                    <span class="layer-icon">⚙️</span>
+                </div>
+                
+                <div class="microservices-container">
+                    <div class="microservices-label">
+                        <span>⚡</span> Microservices
+                    </div>
+                    
+                    <div class="service-box">
+                        <span class="service-icon">🔥</span>
+                        <div class="service-name">Trending Service</div>
+                        <div class="service-description">Popular content analytics</div>
+                    </div>
+                    
+                    <div class="service-box">
+                        <span class="service-icon">🔄</span>
+                        <div class="service-name">Watch Again Service</div>
+                        <div class="service-description">Continue watching features</div>
+                    </div>
+                    
+                    <div class="service-box">
+                        <span class="service-icon">🤖</span>
+                        <div class="service-name">Recommendation</div>
+                        <div class="service-description">AI-powered suggestions</div>
+                    </div>
+                </div>
+                
+                <div class="tech-stack">
+                    <div class="tech-item">
+                        <span class="tech-icon">☕</span>
+                        <div class="tech-name">Java</div>
+                    </div>
+                    <div class="tech-item">
+                        <span class="tech-icon">🍃</span>
+                        <div class="tech-name">Spring</div>
+                    </div>
+                    <div class="tech-item">
+                        <span class="tech-icon">🌐</span>
+                        <div class="tech-name">.NET</div>
+                    </div>
+                    <div class="tech-item">
+                        <span class="tech-icon">📟</span>
+                        <div class="tech-name">Node.js</div>
+                    </div>
+                    <div class="tech-item">
+                        <span class="tech-icon">🐍</span>
+                        <div class="tech-name">Python</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Data Layer -->
+            <div class="layer-section data">
+                <div class="layer-header">
+                    <div class="layer-title">Data Layer</div>
+                    <span class="layer-icon">🗄️</span>
+                </div>
+                
+                <div class="database-icons">
+                    <div class="db-item">
+                        <span class="db-icon">🗃️</span>
+                        <div>Primary DB</div>
+                    </div>
+                    <div class="db-item">
+                        <span class="db-icon">📊</span>
+                        <div>Analytics DB</div>
+                    </div>
+                    <div class="db-item">
+                        <span class="db-icon">⚡</span>
+                        <div>Cache Layer</div>
+                    </div>
+                </div>
+                
+                <div class="tech-stack">
+                    <div class="tech-item">
+                        <span class="tech-icon">🐬</span>
+                        <div class="tech-name">MySQL</div>
+                    </div>
+                    <div class="tech-item">
+                        <span class="tech-icon">🍃</span>
+                        <div class="tech-name">MongoDB</div>
+                    </div>
+                    <div class="tech-item">
+                        <span class="tech-icon">🔶</span>
+                        <div class="tech-name">Oracle</div>
+                    </div>
+                    <div class="tech-item">
+                        <span class="tech-icon">🐘</span>
+                        <div class="tech-name">PostgreSQL</div>
+                    </div>
+                    <div class="tech-item">
+                        <span class="tech-icon">🔺</span>
+                        <div class="tech-name">Cassandra</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="flow-arrows">
+            <span>Client Request</span>
+            <span class="arrow">→</span>
+            <span>Service Processing</span>
+            <span class="arrow">→</span>
+            <span>Data Operations</span>
+            <span class="arrow">→</span>
+            <span>Response</span>
+        </div>
+        
+        <div class="company-footer">
+            <div class="company-name">Wezva Technologies</div>
+            <div class="contact-info">ADAM | 📞 9739110917</div>
+        </div>
+    </div>
+
+    <script>
+        // Dark mode functionality
+        function toggleTheme() {
+            const body = document.body;
+            const themeIcon = document.getElementById('themeIcon');
+            const themeText = document.getElementById('themeText');
+            
+            if (body.getAttribute('data-theme') === 'dark') {
+                body.removeAttribute('data-theme');
+                themeIcon.textContent = '🌙';
+                themeText.textContent = 'Dark';
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                themeIcon.textContent = '☀️';
+                themeText.textContent = 'Light';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+        
+        // Load saved theme on page load
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const themeIcon = document.getElementById('themeIcon');
+            const themeText = document.getElementById('themeText');
+            
+            if (savedTheme === 'dark') {
+                document.body.setAttribute('data-theme', 'dark');
+                themeIcon.textContent = '☀️';
+                themeText.textContent = 'Light';
+            }
+        }
+        
+        // Initialize theme on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadTheme();
+        });
+    </script>
+</body>
+</html>
+
