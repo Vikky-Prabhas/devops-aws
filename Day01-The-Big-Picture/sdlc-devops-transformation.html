@@ -28,17 +28,17 @@
         }
         
         [data-theme="dark"] {
-            /* Transformation Orange Dark Theme */
-            --bg-primary: #1F2937;
-            --bg-secondary: #374151;
-            --bg-accent: #4B5563;
-            --text-primary: #F9FAFB;
-            --text-secondary: #D1D5DB;
+            /* Transformation Orange Dark Theme - FIXED */
+            --bg-primary: #1A1A1A;
+            --bg-secondary: #2A2A2A;
+            --bg-accent: #3A3A3A;
+            --text-primary: #FFFFFF;
+            --text-secondary: #E2E8F0;
             --transformation-orange: #F97316;
             --transformation-dark-orange: #EA580C;
-            --border-color: #6B7280;
-            --card-shadow: rgba(249, 115, 22, 0.15);
-            --card-shadow-hover: rgba(249, 115, 22, 0.25);
+            --border-color: #4A4A4A;
+            --card-shadow: rgba(249, 115, 22, 0.2);
+            --card-shadow-hover: rgba(249, 115, 22, 0.3);
             --success-green: #34D399;
             --error-red: #F87171;
         }
@@ -87,6 +87,7 @@
             padding: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
+            user-select: none;
         }
         
         .theme-toggle:hover {
@@ -450,7 +451,7 @@
             margin-top: 2rem;
         }
         
-        /* PROBLEM ANALYSIS SECTION */
+        /* PROBLEM ANALYSIS SECTION - FIXED SIDE BY SIDE */
         .problem-section {
             margin-bottom: 4rem;
             background: var(--bg-primary);
@@ -459,25 +460,22 @@
             border: 1px solid var(--border-color);
         }
         
-       /* PROBLEM ANALYSIS SECTION - FIXED */
-.problem-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
-    margin-top: 2rem;
-}
-
-.problem-card {
-    background: var(--bg-secondary);
-    padding: 1.5rem;
-    border-radius: 15px;
-    border: 1px solid var(--border-color);
-    transition: all 0.3s ease;
-    position: relative;
-    box-shadow: 0 4px 15px var(--card-shadow);
-    max-width: 100%;
-}
-
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .problem-card {
+            background: var(--bg-secondary);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            position: relative;
+            box-shadow: 0 4px 15px var(--card-shadow);
+        }
         
         .problem-card:hover {
             transform: translateY(-8px);
@@ -526,7 +524,7 @@
             color: var(--error-red);
         }
         
-        /* DEVOPS BENEFITS SECTION */
+        /* DEVOPS BENEFITS SECTION - FIXED SIDE BY SIDE */
         .benefits-section {
             background: var(--bg-accent);
             padding: 3rem 2rem;
@@ -535,25 +533,22 @@
             border: 1px solid var(--border-color);
         }
         
-        /* DEVOPS BENEFITS SECTION - FIXED */
-.benefits-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
-    margin-top: 2rem;
-}
-
-.benefit-card {
-    background: var(--bg-primary);
-    padding: 1.5rem;
-    border-radius: 15px;
-    text-align: center;
-    border: 1px solid var(--border-color);
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px var(--card-shadow);
-    max-width: 100%;
-}
-
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .benefit-card {
+            background: var(--bg-primary);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px var(--card-shadow);
+        }
         
         .benefit-card:hover {
             transform: translateY(-8px) scale(1.02);
@@ -670,7 +665,7 @@
             font-size: 0.9rem;
         }
         
-        /* SIDE-BY-SIDE COMPARISON TABLES */
+        /* SIDE-BY-SIDE COMPARISON TABLES - FIXED */
         .comparison-section {
             background: var(--bg-secondary);
             padding: 3rem 2rem;
@@ -859,138 +854,145 @@
         }
         
         /* RESPONSIVE DESIGN - FIXED AND ORGANIZED */
-
-/* Large Desktop (1200px and above) */
-@media (min-width: 1200px) {
-    .problem-grid,
-    .benefits-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 2rem;
-    }
-}
-
-/* Desktop and Tablet (1025px - 1199px) */
-@media (min-width: 1025px) and (max-width: 1199px) {
-    .problem-grid,
-    .benefits-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1.5rem;
-    }
-}
-
-/* Tablet and Small Desktop (769px - 1024px) */
-@media (max-width: 1024px) {
-    /* Layout Changes */
-    .transformation-visual {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-    }
-    
-    .transformation-arrow {
-        transform: rotate(90deg);
-        margin: 1rem 0;
-    }
-    
-    .company-grid {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-    }
-    
-    .tables-container {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-    }
-    
-    /* Single column for problem and benefits on tablet */
-    .problem-grid,
-    .benefits-grid {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-    }
-}
-
-/* Mobile Devices (769px and below) */
-@media (max-width: 768px) {
-    .container {
-        padding: 1rem;
-    }
-    
-    .top-bar {
-        flex-direction: column;
-        gap: 1rem;
-        padding: 15px;
-    }
-    
-    .methodology-mockup {
-        max-width: 300px;
-    }
-    
-    .mockup-screen {
-        min-height: 250px;
-        padding: 1rem;
-    }
-    
-    .phase-item {
-        font-size: 0.8rem;
-        padding: 0.6rem;
-    }
-    
-    /* All grids single column on mobile */
-    .benefits-grid,
-    .problem-grid,
-    .sdlc-phases,
-    .devops-phases {
-        grid-template-columns: 1fr;
-    }
-    
-    .devops-benefits-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .benefit-summary {
-        flex-direction: column;
-        text-align: center;
-    }
-    
-    .comparison-table th,
-    .comparison-table td {
-        padding: 0.6rem;
-        font-size: 0.8rem;
-    }
-}
-
-/* Small Mobile Devices (480px and below) */
-@media (max-width: 480px) {
-    .hero-title {
-        font-size: 1.8rem;
-    }
-    
-    .methodology-mockup {
-        max-width: 280px;
-    }
-    
-    .mockup-screen {
-        min-height: 220px;
-    }
-    
-    .section-title {
-        font-size: 1.6rem;
-    }
-    
-    .transformation-arrow {
-        font-size: 2rem;
-        width: 50px;
-        height: 50px;
-    }
-}
-
+        @media (min-width: 1200px) {
+            .problem-grid,
+            .benefits-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 2rem;
+            }
+        }
+        
+        @media (min-width: 1025px) and (max-width: 1199px) {
+            .problem-grid,
+            .benefits-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 1024px) {
+            .transformation-visual {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .transformation-arrow {
+                transform: rotate(90deg);
+                margin: 1rem 0;
+            }
+            
+            .company-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .tables-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .problem-grid,
+            .benefits-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .top-bar {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 15px;
+            }
+            
+            .methodology-mockup {
+                max-width: 300px;
+            }
+            
+            .mockup-screen {
+                min-height: 250px;
+                padding: 1rem;
+            }
+            
+            .phase-item {
+                font-size: 0.8rem;
+                padding: 0.6rem;
+            }
+            
+            .benefits-grid,
+            .problem-grid,
+            .sdlc-phases,
+            .devops-phases {
+                grid-template-columns: 1fr;
+            }
+            
+            .devops-benefits-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .benefit-summary {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .comparison-table th,
+            .comparison-table td {
+                padding: 0.6rem;
+                font-size: 0.8rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 1.8rem;
+            }
+            
+            .methodology-mockup {
+                max-width: 280px;
+            }
+            
+            .mockup-screen {
+                min-height: 220px;
+            }
+            
+            .section-title {
+                font-size: 1.6rem;
+            }
+            
+            .transformation-arrow {
+                font-size: 2rem;
+                width: 50px;
+                height: 50px;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="top-bar">
         <a href="index.html" class="back-button">← Back to Day 1 Topics</a>
         
-        <div class="theme-toggle" onclick="toggleTheme()">
+        <div class="theme-toggle" onclick="
+            const body = document.body;
+            const icon = document.getElementById('themeIcon');
+            const text = document.getElementById('themeText');
+            const isDark = body.getAttribute('data-theme') === 'dark';
+            
+            if (isDark) {
+                body.removeAttribute('data-theme');
+                icon.textContent = '🌙';
+                text.textContent = 'Dark';
+                localStorage.setItem('sdlc-theme', 'light');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                icon.textContent = '☀️';
+                text.textContent = 'Light';
+                localStorage.setItem('sdlc-theme', 'dark');
+            }
+        " style="cursor: pointer;">
             <div class="toggle-switch">
                 <span class="toggle-icon" id="themeIcon">🌙</span>
                 <span class="toggle-text" id="themeText">Dark</span>
@@ -1187,7 +1189,7 @@
             </div>
         </div>
         
-        <!-- PROBLEM ANALYSIS SECTION -->
+        <!-- PROBLEM ANALYSIS SECTION - FIXED SIDE BY SIDE -->
         <div class="problem-section">
             <h2 class="section-title">💥 Why Traditional SDLC Fails in Today's Digital World</h2>
             <div class="problem-grid">
@@ -1233,7 +1235,7 @@
             </div>
         </div>
         
-        <!-- DEVOPS BENEFITS SECTION -->
+        <!-- DEVOPS BENEFITS SECTION - FIXED SIDE BY SIDE -->
         <div class="benefits-section">
             <h2 class="section-title">🏆 Why DevOps Completely Dominates Traditional SDLC</h2>
             <div class="benefits-grid">
@@ -1356,7 +1358,7 @@
             </div>
         </div>
         
-        <!-- COMPARISON TABLES - SIDE BY SIDE LAYOUT -->
+        <!-- COMPARISON TABLES - SIDE BY SIDE LAYOUT FIXED -->
         <div class="comparison-section">
             <h2 class="section-title">📊 Traditional SDLC vs DevOps: Complete Comparison</h2>
             
@@ -1546,53 +1548,29 @@
     </div>
 
     <script>
-        // Enhanced dark mode functionality with proper theme persistence
-        function toggleTheme() {
-            const body = document.body;
-            const themeIcon = document.getElementById('themeIcon');
-            const themeText = document.getElementById('themeText');
-            
-            // Get current theme state
-            const isDark = body.hasAttribute('data-theme') && body.getAttribute('data-theme') === 'dark';
-            
-            if (isDark) {
-                // Switch to light mode
-                body.removeAttribute('data-theme');
-                themeIcon.textContent = '🌙';
-                themeText.textContent = 'Dark';
-                localStorage.setItem('sdlc-theme', 'light');
-            } else {
-                // Switch to dark mode
-                body.setAttribute('data-theme', 'dark');
-                themeIcon.textContent = '☀️';
-                themeText.textContent = 'Light';
-                localStorage.setItem('sdlc-theme', 'dark');
+        // Load theme immediately to prevent flash
+        (function() {
+            const savedTheme = localStorage.getItem('sdlc-theme') || 'light';
+            if (savedTheme === 'dark') {
+                document.body.setAttribute('data-theme', 'dark');
             }
-        }
+        })();
         
-        // Load saved theme on page load
-        function loadTheme() {
-            const savedTheme = localStorage.getItem('sdlc-theme') || localStorage.getItem('theme') || 'light';
-            const body = document.body;
+        // Set theme toggle state when DOM loads
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('sdlc-theme') || 'light';
             const themeIcon = document.getElementById('themeIcon');
             const themeText = document.getElementById('themeText');
             
             if (savedTheme === 'dark') {
-                body.setAttribute('data-theme', 'dark');
                 if (themeIcon) themeIcon.textContent = '☀️';
                 if (themeText) themeText.textContent = 'Light';
             } else {
-                body.removeAttribute('data-theme');
                 if (themeIcon) themeIcon.textContent = '🌙';
                 if (themeText) themeText.textContent = 'Dark';
             }
-        }
-        
-        // Initialize when page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            loadTheme();
             
-            // Add intersection observer for smooth animations
+            // Add scroll animations
             const observerOptions = {
                 threshold: 0.1,
                 rootMargin: '0px 0px -50px 0px'
@@ -1607,7 +1585,7 @@
                 });
             }, observerOptions);
             
-            // Observe cards for smooth scroll animations
+            // Observe cards for smooth animations
             document.querySelectorAll('.problem-card, .benefit-card, .company-card, .phase-card').forEach(card => {
                 card.style.opacity = '0';
                 card.style.transform = 'translateY(20px)';
